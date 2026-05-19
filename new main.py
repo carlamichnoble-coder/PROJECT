@@ -502,7 +502,7 @@ class PatientDialog(QDialog):
         self.address_edit = QTextEdit()
         self.address_edit.setFixedHeight(70)
         self.condition_edit = QLineEdit()#new field for patient's medical condition
-        self.condition_edit.setPlaceholderText("e.g., Hypertension, Diabetes, General, Cardiovascular, Arthritis")
+        
         self.notes_edit = QTextEdit()
         self.notes_edit.setFixedHeight(70)
         self.notes_edit.setPlaceholderText("e.g., BP monitoring, Lab results, Annual physical, Patient request, Joint pain")
@@ -516,7 +516,6 @@ class PatientDialog(QDialog):
         form.addRow("Email *",       self.email_edit)
         form.addRow("Address *",     self.address_edit)
         form.addRow("Condition",     self.condition_edit)#new field for patient's medical condition
-        form.addRow("Medical Notes", self.notes_edit)
         layout.addLayout(form)
 
         if self.patient:
@@ -529,7 +528,7 @@ class PatientDialog(QDialog):
             self.email_edit.setText(self.patient.get("email", ""))
             self.address_edit.setPlainText(self.patient.get("address", ""))
             self.condition_edit.setText(self.patient.get("condition", ""))#new field for patient's medical condition
-            self.notes_edit.setPlainText(self.patient.get("notes", ""))
+            
 
         self._update_age()
 
@@ -568,7 +567,7 @@ class PatientDialog(QDialog):
                 "name": name, "birthdate": bd,
                 "gender": self.gender_combo.currentText(),
                 "age": age, "email": email, "address": address,
-                "condition": condition, "notes": notes,
+                "condition": condition,
                 "username": uname, "password": pwd
             }
             patients_map[uname] = new_p       # HashMap O(1) insert
@@ -924,7 +923,7 @@ class DashboardPanel(QWidget):
         stats_layout.addWidget(card3, 0, 2)
 
         # Pending Records
-        card4, label4 = self._make_stat_card_with_label("  Pending Records", WARNING, "white")
+        card4, label4 = self._make_stat_card_with_label("  Pending Records", ACCENT, DARK_TEXT)
         self.stat_cards["pending"] = label4
         stats_layout.addWidget(card4, 0, 3)
 
@@ -1214,7 +1213,7 @@ class PatientsPanel(QWidget):
             top.addWidget(add_btn)
         layout.addLayout(top)
 
-        self.table = styled_table(["Name", "Birthdate", "Gender", "Age", "Condition", "Notes", "Email", "Address"])
+        self.table = styled_table(["Name", "Birthdate", "Gender", "Age", "Condition",  "Email", "Address"])
         layout.addWidget(self.table)
 
         if not self.read_only:
